@@ -1015,7 +1015,7 @@
     },
     "clock": {
       "Package": "clock",
-      "Version": "0.7.2",
+      "Version": "0.7.4",
       "Source": "Repository",
       "Title": "Date-Time Types and Tools",
       "Authors@R": "c( person(\"Davis\", \"Vaughan\", , \"davis@posit.co\", role = c(\"aut\", \"cre\")), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\")) )",
@@ -1024,14 +1024,14 @@
       "URL": "https://clock.r-lib.org, https://github.com/r-lib/clock",
       "BugReports": "https://github.com/r-lib/clock/issues",
       "Depends": [
-        "R (>= 3.6.0)"
+        "R (>= 4.0.0)"
       ],
       "Imports": [
-        "cli (>= 3.6.1)",
-        "lifecycle (>= 1.0.3)",
-        "rlang (>= 1.1.0)",
-        "tzdb (>= 0.4.0)",
-        "vctrs (>= 0.6.1)"
+        "cli (>= 3.6.4)",
+        "lifecycle (>= 1.0.4)",
+        "rlang (>= 1.1.5)",
+        "tzdb (>= 0.5.0)",
+        "vctrs (>= 0.6.5)"
       ],
       "Suggests": [
         "covr",
@@ -1039,13 +1039,13 @@
         "magrittr",
         "pillar",
         "rmarkdown",
-        "slider (>= 0.3.0)",
+        "slider (>= 0.3.2)",
         "testthat (>= 3.0.0)",
         "withr"
       ],
       "LinkingTo": [
-        "cpp11 (>= 0.5.1)",
-        "tzdb (>= 0.4.0)"
+        "cpp11 (>= 0.5.2)",
+        "tzdb (>= 0.5.0)"
       ],
       "VignetteBuilder": "knitr",
       "Config/build/compilation-database": "true",
