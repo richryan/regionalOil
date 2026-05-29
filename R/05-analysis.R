@@ -411,6 +411,18 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
   my_ytitle_dempl <- "Employment"
   my_xtitle <- "Months"
   
+  theme_irf <- function() {
+    theme_minimal() +
+    theme(
+      panel.grid.minor.x = element_blank(),
+      plot.title = element_text(size = 8),
+      axis.title.x = element_text(size = 8), 
+      axis.title.y = element_text(size = 8), 
+      axis.text.y = element_text(size = 6), 
+      axis.text.x = element_text(size = 6)      
+    )    
+  }
+  
   # Negative oil-supply shock
   my_shock_title_oilsupply <- "Oil-supply shock"
   plt_oilsupply_oilsupply <- plot_irf_response_shock(response = "oilsupply", shock = "oilsupply", 
@@ -420,7 +432,8 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                                      alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                                      color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci = linewidth_ci, 
                                                      color_irf = color_irf,
-                                                     my_ybreaks = seq(-2.0, 0.5, 0.5), my_ylim = c(-2.0, 0.5)) 
+                                                     my_ybreaks = seq(-2.0, 0.5, 0.5), my_ylim = c(-2.0, 0.5)) +
+    theme_irf()
   
   plt_aggdemand_oilsupply <- plot_irf_response_shock(response = "aggdemand", shock = "oilsupply", 
                                                      my_title = my_shock_title_oilsupply, my_ytitle = my_ytitle_aggdemand, 
@@ -428,7 +441,8 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                                      yintercept_value = 0,
                                                      alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                                      color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci = linewidth_ci,
-                                                     color_irf = color_irf) 
+                                                     color_irf = color_irf) +
+    theme_irf()
   
   plt_rpoil_oilsupply <- plot_irf_response_shock(response = "rpoil", shock = "oilsupply", 
                                                  my_title = my_shock_title_oilsupply, my_ytitle = my_ytitle_rpoil, 
@@ -436,7 +450,8 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                                  yintercept_value = 0,
                                                  alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                                  color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci = linewidth_ci,
-                                                 color_irf = color_irf) 
+                                                 color_irf = color_irf) +
+    theme_irf()
   
   plt_dempl_oilsupply <- plot_irf_response_shock(response = "dempl", shock = "oilsupply", 
                                                  my_title = my_shock_title_oilsupply, my_ytitle = my_ytitle_dempl, 
@@ -444,7 +459,9 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                                  yintercept_value = 0,
                                                  alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                                  color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci = linewidth_ci,
-                                                 color_irf = color_irf) 
+                                                 color_irf = color_irf) +
+    theme_irf()
+  
   # Aggregate-demand shock
   my_title_aggdemand <- "Aggregate-demand shock"
   plt_oilsupply_aggdemand <- plot_irf_response_shock(response = "oilsupply", shock = "aggdemand", 
@@ -453,7 +470,7 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                                      yintercept_value = 0,
                                                      alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                                      color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci = linewidth_ci,
-                                                     color_irf = color_irf) 
+                                                     color_irf = color_irf) + theme_irf()
   
   plt_aggdemand_aggdemand <- plot_irf_response_shock(response = "aggdemand", shock = "aggdemand", 
                                                      my_title = my_title_aggdemand, my_ytitle = my_ytitle_aggdemand, 
@@ -461,7 +478,7 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                                      yintercept_value = 0,
                                                      alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                                      color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci = linewidth_ci,
-                                                     color_irf = color_irf) 
+                                                     color_irf = color_irf) + theme_irf()
   
   plt_rpoil_aggdemand <- plot_irf_response_shock(response = "rpoil", shock = "aggdemand", 
                                                  my_title = my_title_aggdemand, my_ytitle = my_ytitle_rpoil, 
@@ -469,7 +486,7 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                                  yintercept_value = 0,
                                                  alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                                  color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci = linewidth_ci,
-                                                 color_irf = color_irf) 
+                                                 color_irf = color_irf) + theme_irf()
   
   plt_dempl_aggdemand <- plot_irf_response_shock("dempl", "aggdemand", 
                                                  my_title = my_title_aggdemand, my_ytitle = my_ytitle_dempl, 
@@ -477,7 +494,7 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                                  yintercept_value = 0,
                                                  alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                                  color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci = linewidth_ci,
-                                                 color_irf = color_irf) 
+                                                 color_irf = color_irf) + theme_irf()
   
   # Real-price-of-oil shock
   my_title_rpoil <- "Oil-specific-demand shock"
@@ -487,7 +504,7 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                                  yintercept_value = 0,
                                                  alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                                  color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci = linewidth_ci,
-                                                 color_irf = color_irf) 
+                                                 color_irf = color_irf) + theme_irf()
   
   plt_aggdemand_rpoil <- plot_irf_response_shock(response = "aggdemand", shock = "rpoil", 
                                                  my_title = my_title_rpoil, my_ytitle = my_ytitle_aggdemand, 
@@ -495,7 +512,7 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                                  yintercept_value = 0,
                                                  alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                                  color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci = linewidth_ci,
-                                                 color_irf = color_irf) 
+                                                 color_irf = color_irf) + theme_irf()
   
   plt_rpoil_rpoil <- plot_irf_response_shock(response = "rpoil", shock = "rpoil", 
                                              my_title = my_title_rpoil, my_ytitle = my_ytitle_rpoil, 
@@ -503,7 +520,7 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                              yintercept_value = 0,
                                              alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                              color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci = linewidth_ci,
-                                             color_irf = color_irf) 
+                                             color_irf = color_irf) + theme_irf()
   
   plt_dempl_rpoil <- plot_irf_response_shock("dempl", "rpoil", 
                                              my_title = my_title_rpoil, my_ytitle = my_ytitle_dempl, 
@@ -511,7 +528,7 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                              yintercept_value = 0,
                                              alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                              color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci = linewidth_ci,
-                                             color_irf = color_irf) 
+                                             color_irf = color_irf) + theme_irf()
   
   
   # Employment-demand shock
@@ -523,7 +540,7 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                                  alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                                  color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci,
                                                  color_irf = color_irf,
-                                                 my_xtitle = my_xtitle) 
+                                                 my_xtitle = my_xtitle) + theme_irf()
   
   
   plt_aggdemand_dempl <- plot_irf_response_shock(response = "aggdemand", shock = "dempl", 
@@ -533,7 +550,7 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                                  alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                                  color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci,
                                                  color_irf = color_irf,
-                                                 my_xtitle = my_xtitle) 
+                                                 my_xtitle = my_xtitle) + theme_irf()
   
   plt_rpoil_dempl <- plot_irf_response_shock(response = "rpoil", shock = "dempl", 
                                              my_title = my_title_dempl, my_ytitle = my_ytitle_rpoil, 
@@ -542,7 +559,7 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                              alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                              color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci,
                                              color_irf = color_irf,
-                                             my_xtitle = my_xtitle) 
+                                             my_xtitle = my_xtitle) + theme_irf()
   
   plt_dempl_dempl <- plot_irf_response_shock("dempl", "dempl", 
                                              my_title = my_title_dempl, my_ytitle = my_ytitle_dempl, 
@@ -551,53 +568,56 @@ plot_irf <- function(county_name, dat_var, nrep, block_length) {
                                              alpha_ci = alpha_ci, alpha_ci1 = alpha_ci1,
                                              color_ci = color_ci, linetype_ci = linetype_ci, linewidth_ci,
                                              color_irf = color_irf,
-                                             my_xtitle = my_xtitle) 
+                                             my_xtitle = my_xtitle) + theme_irf()
   
   plt_all <- (plt_oilsupply_oilsupply | plt_aggdemand_oilsupply | plt_rpoil_oilsupply | plt_dempl_oilsupply) /
     (plt_oilsupply_aggdemand | plt_aggdemand_aggdemand | plt_rpoil_aggdemand | plt_dempl_aggdemand) /
     (plt_oilsupply_rpoil | plt_aggdemand_rpoil | plt_rpoil_rpoil | plt_dempl_rpoil) /
     (plt_oilsupply_dempl | plt_aggdemand_dempl | plt_rpoil_dempl | plt_dempl_dempl) &  
-    scale_x_continuous(expand = c(0, 0), breaks = c(0, 3, 6, 9, 12, 15)) &
-    theme_minimal() &
-    theme(
-      panel.grid.minor.x = element_blank(),
-      plot.title = element_text(size = 8),
-      axis.title.x = element_text(size = 8), 
-      axis.title.y = element_text(size = 8), 
-      axis.text.y = element_text(size = 6), 
-      axis.text.x = element_text(size = 6)      
-    )
+    scale_x_continuous(expand = c(0, 0), breaks = c(0, 3, 6, 9, 12, 15)) 
+    # The following is now erroring out through what looks like a clash between ggplot2 and patchwork
+    # theme_minimal() &
+    # theme(
+    #   panel.grid.minor.x = element_blank(),
+    #   plot.title = element_text(size = 8),
+    #   axis.title.x = element_text(size = 8), 
+    #   axis.title.y = element_text(size = 8), 
+    #   axis.text.y = element_text(size = 6), 
+    #   axis.text.x = element_text(size = 6)      
+    # )
   
   # In plt_response_shock form 
   plt_oil_block <- (plt_oilsupply_oilsupply | plt_aggdemand_oilsupply | plt_rpoil_oilsupply) /
     (plt_oilsupply_aggdemand | plt_aggdemand_aggdemand | plt_rpoil_aggdemand) /
     (plt_oilsupply_rpoil | plt_aggdemand_rpoil | plt_rpoil_rpoil) &  
-    scale_x_continuous(expand = c(0, 0), breaks = c(0, 3, 6, 9, 12, 15)) &
-    theme_minimal() &
-    theme(
-      panel.grid.minor.x = element_blank(),
-      plot.title = element_text(size = 8),
-      axis.title.x = element_text(size = 8), 
-      axis.title.y = element_text(size = 8), 
-      axis.text.y = element_text(size = 6), 
-      axis.text.x = element_text(size = 6)      
-    )
+    scale_x_continuous(expand = c(0, 0), breaks = c(0, 3, 6, 9, 12, 15)) 
+  # &
+  #   theme_minimal() &
+  #   theme(
+  #     panel.grid.minor.x = element_blank(),
+  #     plot.title = element_text(size = 8),
+  #     axis.title.x = element_text(size = 8), 
+  #     axis.title.y = element_text(size = 8), 
+  #     axis.text.y = element_text(size = 6), 
+  #     axis.text.x = element_text(size = 6)      
+  #   )
   
   # In plt_response_shock form
   plt_empl_block <- (plt_dempl_oilsupply) /
     (plt_dempl_aggdemand) /
     (plt_dempl_rpoil) /
     (plt_dempl_dempl) &  
-    scale_x_continuous(expand = c(0, 0), breaks = c(0, 3, 6, 9, 12, 15)) &
-    theme_minimal() &
-    theme(
-      panel.grid.minor.x = element_blank(),
-      plot.title = element_text(size = 8),
-      axis.title.x = element_text(size = 8), 
-      axis.title.y = element_text(size = 8), 
-      axis.text.y = element_text(size = 6), 
-      axis.text.x = element_text(size = 6)      
-    )
+    scale_x_continuous(expand = c(0, 0), breaks = c(0, 3, 6, 9, 12, 15)) 
+  # &
+  #   theme_minimal() &
+  #   theme(
+  #     panel.grid.minor.x = element_blank(),
+  #     plot.title = element_text(size = 8),
+  #     axis.title.x = element_text(size = 8), 
+  #     axis.title.y = element_text(size = 8), 
+  #     axis.text.y = element_text(size = 6), 
+  #     axis.text.x = element_text(size = 6)      
+  #   )
   
   ret <- list(plt_all = plt_all, 
               plt_oil_block = plt_oil_block,

@@ -58,6 +58,62 @@ dat_fred <- dat_fred_raw |>
 
 write_csv(dat_fred, file = fout_fred_monthly)
 
+
+# Recession dates ---------------------------------------------------------
+
+fredrr <- function(vars, from) {
+  # Make compatible with 
+  if (missing(from)) {
+    from <- ymd("1776-07-04")
+  }
+  dat <- list_rbind(
+    map(vars, fredr::fredr, observation_start = from, observation_end = ymd("9999-12-31"))
+  ) |> 
+    select(-starts_with("realtime_"))
+  
+  dat <- dat |> 
+    rename(price = value,
+           symbol = series_id)
+}
+
+get_dat_recess <- function() {
+  recess <- fredrr("USRECM") # tq_get("USRECM", get = "economic.data", from = "1800-01-01")
+  recess_dat <- recess |> 
+    arrange(date) |> 
+    mutate(same = 1 - (price == lag(price))) |> 
+    # Remove first row, an NA, for cumulative sum
+    filter(date > min(recess$date)) |> 
+    mutate(era = cumsum(same)) |> 
+    # Filter only recessions
+    filter(near(price, 1))
+  
+  recess_dat <- recess_dat |> 
+    group_by(era) |> 
+    # Unncessary, but to be sure...
+    arrange(date) |>  
+    filter(row_number() == 1 | row_number() == n())
+  
+  # Now reshape the data wide.
+  # Each row will contain the start and end dates of a recession.
+  recess_dat <- recess_dat |> 
+    mutate(junk = row_number()) |> 
+    mutate(begin_end = case_when(
+      junk == 1 ~ "begin",
+      junk == 2 ~ "end"
+    ))
+  
+  recess_wide <- recess_dat |> 
+    ungroup() |> 
+    select(symbol, price, date, era, begin_end) |> 
+    pivot_wider(names_from = begin_end, values_from = date)
+  
+  return(recess_wide)
+}
+
+dat_recess <- get_dat_recess()
+fout_fred_monthly_recess <- here("dta", "src", paste0("dat_", file_prg, "_recession_" , date_fred_monthly, ".csv"))
+write_csv(dat_recess, file = fout_fred_monthly_recess)
+
 # Code using tidyquant package and tq_get that doesn't work ---------------
 
 # dat_fred_raw <- tq_get(fred_dictionary$fred_series,

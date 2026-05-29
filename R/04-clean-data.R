@@ -136,56 +136,6 @@ get_dat_empl_qcew_ind <- function(dat_all_qcew, dat_empl_qcew_cps) {
   return(dat_empl_oil_gas)
 }
 
-fred_api_key <- Sys.getenv("FRED_API_KEY")
-fredrr <- function(vars, from) {
-  # Make compatible with 
-  if (missing(from)) {
-    from <- ymd("1776-07-04")
-  }
-  dat <- list_rbind(
-    map(vars, fredr::fredr, observation_start = from, observation_end = ymd("9999-12-31"))
-  ) |> 
-    select(-starts_with("realtime_"))
-  
-  dat <- dat |> 
-    rename(price = value,
-           symbol = series_id)
-}
-
-get_dat_recess <- function() {
-  recess <- fredrr("USRECM") # tq_get("USRECM", get = "economic.data", from = "1800-01-01")
-  recess_dat <- recess %>% 
-    arrange(date) %>% 
-    mutate(same = 1 - (price == lag(price))) %>% 
-    # Remove first row, an NA, for cumulative sum
-    filter(date > min(recess$date)) %>% 
-    mutate(era = cumsum(same)) %>% 
-    # Filter only recessions
-    filter(price == 1)
-  
-  recess_dat <- recess_dat %>% 
-    group_by(era) %>% 
-    # Unncessary, but to be sure...
-    arrange(date) %>% 
-    filter(row_number() == 1 | row_number() == n())
-  
-  # Now reshape the data wide.
-  # Each row will contain the start and end dates of a recession.
-  recess_dat <- recess_dat %>% 
-    mutate(junk = row_number()) %>% 
-    mutate(begin_end = case_when(
-      junk == 1 ~ "begin",
-      junk == 2 ~ "end"
-    ))
-  
-  recess_wide <- recess_dat %>%
-    ungroup() %>% 
-    select(symbol, price, date, era, begin_end) %>% 
-    pivot_wider(names_from = begin_end, values_from = date)
-  
-  return(recess_wide)
-}
-
 get_dat_var <- function(dat_empl_qcew_cps, dat_fred_monthly, dat_oil_production, dat_oil_price) {
   employment_variables <- c("empl", "pchange_empl", "pchange_empl0", "change_log_empl", "change_log_empl0")
   dat_empl <- dat_empl_qcew_cps |> 
@@ -213,8 +163,6 @@ get_dat_var <- function(dat_empl_qcew_cps, dat_fred_monthly, dat_oil_production,
 
   return(dat)
 }
-
-
 
 get_dat_wage2 <- function(dat_qtrly_wages, dat_fred_monthly, my_area_title) {
   
@@ -280,82 +228,82 @@ get_dat_wage2 <- function(dat_qtrly_wages, dat_fred_monthly, my_area_title) {
 
 # Employment by NAICS supersector -----------------------------------------
 
-get_qcew_naics_supersector <- function(county_name) {
-  # Read in all the data
-  all_qcew_files <- here("dta", "src", list.files(path = here("dta", "src"), pattern = "^[0-9]{4}.*\\.csv", recursive = TRUE))
-  qcew_files <- get_qcew_files[str_detect(get_qcew_files, county_name)]
-  dat_all_list <- map(qcew_files, read_in_qcew_file)
-  dat_all <- list_rbind(dat_all_list)
-  
-  dat <- clean_naics_supersector(dat_all)
-  return(dat)
-}
-
-read_in_qcew_file <- function(fin) {
-  df <- read_csv(fin,
-                 col_types = cols(.default = col_character()))
-}
-
-clean_naics_supersector <- function(df) {
-  df <- df |> 
-    # 73 = County, by Supersector -- by ownership sector
-    filter(agglvl_code == 73) |> 
-    # Verify ownership code
-    # 1 	Federal Government  
-    # 2 	State Government
-    # 3 	Local Government  
-    # 4 	International Government
-    # 5 	Private
-    verify(own_code == 1 | own_code == 2 | own_code == 3 | own_code == 4 | own_code == 5) |> 
-    # Collapse across ownership type
-    group_by(year, qtr, industry_code) |> 
-    summarise(industry_code = first(industry_code),
-              industry_title = first(industry_title),
-              month1_emplvl = sum(as.numeric(month1_emplvl)),
-              month2_emplvl = sum(as.numeric(month2_emplvl)),
-              month3_emplvl = sum(as.numeric(month3_emplvl))) |> 
-    mutate(year = as.numeric(year),
-           qtr = as.numeric(qtr)) |> 
-    pivot_longer(cols = starts_with("month"),
-                 names_to = "series", values_to = "empl") |>
-    mutate(month_in_quarter = as.numeric(str_sub(series, start = 6, end = 6)),
-           month = (qtr - 1) * 3 + month_in_quarter,
-           date = ymd(paste(year, month, "01", sep = "-")))
-  
-  
-  # === Start cleaning the data more methodically
-  # Standardize NAICS supersector codes
-  df <- df |> 
-    mutate(supersector_title_tmp = str_replace_all(industry_title, "[0123456789]", ""),
-           supersector_title = str_replace(supersector_title_tmp, "^\\s", "")) |> 
-    select(-supersector_title_tmp)
-  
-  # Drop unclassified employment
-  df_check_date <- df |> 
-    group_by(supersector_title) |> 
-    summarise(start = min(date),
-              end = max(date)) |> 
-    verify(end == max(end)) |> 
-    filter(start != ymd("1990-01-01")) |> 
-    pull(supersector_title)
-  
-  df <- df |> 
-    filter(supersector_title != df_check_date)
-  
-  # Seasonally adjust
-  df <- df |> 
-    rename(empl_nsa = empl) |> 
-    group_by(supersector_title) |> 
-    mutate(empl = kilianr::seasonally_adjust_monthly(empl_nsa, date))
-  
-  # Compute shares
-  df <- df |> 
-    group_by(date) |> 
-    mutate(empl_total = sum(empl)) |> 
-    arrange(date) |> 
-    ungroup() |> 
-    mutate(empl_share = 100 * empl / empl_total)
-  
-  return(df)
-}
-
+# get_qcew_naics_supersector <- function(county_name) {
+#   # Read in all the data
+#   all_qcew_files <- here("dta", "src", list.files(path = here("dta", "src"), pattern = "^[0-9]{4}.*\\.csv", recursive = TRUE))
+#   qcew_files <- get_qcew_files[str_detect(get_qcew_files, county_name)]
+#   dat_all_list <- map(qcew_files, read_in_qcew_file)
+#   dat_all <- list_rbind(dat_all_list)
+#   
+#   dat <- clean_naics_supersector(dat_all)
+#   return(dat)
+# }
+# 
+# read_in_qcew_file <- function(fin) {
+#   df <- read_csv(fin,
+#                  col_types = cols(.default = col_character()))
+# }
+# 
+# clean_naics_supersector <- function(df) {
+#   df <- df |> 
+#     # 73 = County, by Supersector -- by ownership sector
+#     filter(agglvl_code == 73) |> 
+#     # Verify ownership code
+#     # 1 	Federal Government  
+#     # 2 	State Government
+#     # 3 	Local Government  
+#     # 4 	International Government
+#     # 5 	Private
+#     verify(own_code == 1 | own_code == 2 | own_code == 3 | own_code == 4 | own_code == 5) |> 
+#     # Collapse across ownership type
+#     group_by(year, qtr, industry_code) |> 
+#     summarise(industry_code = first(industry_code),
+#               industry_title = first(industry_title),
+#               month1_emplvl = sum(as.numeric(month1_emplvl)),
+#               month2_emplvl = sum(as.numeric(month2_emplvl)),
+#               month3_emplvl = sum(as.numeric(month3_emplvl))) |> 
+#     mutate(year = as.numeric(year),
+#            qtr = as.numeric(qtr)) |> 
+#     pivot_longer(cols = starts_with("month"),
+#                  names_to = "series", values_to = "empl") |>
+#     mutate(month_in_quarter = as.numeric(str_sub(series, start = 6, end = 6)),
+#            month = (qtr - 1) * 3 + month_in_quarter,
+#            date = ymd(paste(year, month, "01", sep = "-")))
+#   
+#   
+#   # === Start cleaning the data more methodically
+#   # Standardize NAICS supersector codes
+#   df <- df |> 
+#     mutate(supersector_title_tmp = str_replace_all(industry_title, "[0123456789]", ""),
+#            supersector_title = str_replace(supersector_title_tmp, "^\\s", "")) |> 
+#     select(-supersector_title_tmp)
+#   
+#   # Drop unclassified employment
+#   df_check_date <- df |> 
+#     group_by(supersector_title) |> 
+#     summarise(start = min(date),
+#               end = max(date)) |> 
+#     verify(end == max(end)) |> 
+#     filter(start != ymd("1990-01-01")) |> 
+#     pull(supersector_title)
+#   
+#   df <- df |> 
+#     filter(supersector_title != df_check_date)
+#   
+#   # Seasonally adjust
+#   df <- df |> 
+#     rename(empl_nsa = empl) |> 
+#     group_by(supersector_title) |> 
+#     mutate(empl = kilianr::seasonally_adjust_monthly(empl_nsa, date))
+#   
+#   # Compute shares
+#   df <- df |> 
+#     group_by(date) |> 
+#     mutate(empl_total = sum(empl)) |> 
+#     arrange(date) |> 
+#     ungroup() |> 
+#     mutate(empl_share = 100 * empl / empl_total)
+#   
+#   return(df)
+# }
+# 
