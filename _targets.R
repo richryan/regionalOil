@@ -18,11 +18,6 @@ tar_source("R/04-clean-data.R")
 tar_source("R/05-analysis.R")
 tar_source("R/06-plot-kern-stats.R")
 
-# OLDER
-# tar_source("R/00-source-data.R")
-# tar_source("R/03-clean-data.R")
-# tar_source("R/03-analysis.R")
-
 # Parameters for plotting
 golden <- 0.5*(1 + sqrt(5))
 mywidth_irf <- 12
@@ -43,10 +38,6 @@ get_qcew_files <- here("dta", "src", list.files(path = here("dta", "src"), patte
 
 # Counties:
 #   "Kern County, California"       
-#   "Weld County, Colorado"         
-#   "Eddy County, New Mexico"      
-#   "McKenzie County, North Dakota" 
-#   "Karnes County, Texas" 
 
 block_length = 24
 
@@ -93,17 +84,6 @@ list(
   # Structural IRFs
   # "Kern County, California"       
   tar_target(plt_kern_analysis, plot_irf("Kern County, California", dat_var, nrep = 2000, block_length = block_length)),
-  # "Weld County, Colorado"         
-  # tar_target(plt_weld_analysis, plot_irf("Weld County, Colorado", dat_var, nrep = 50, block_length = block_length)),
-  # "Eddy County, New Mexico"      
-  # tar_target(plt_eddy_analysis, plot_irf("Eddy County, New Mexico", dat_var, nrep = 50, block_length = block_length)),
-  # "McKenzie County, North Dakota" 
-  # tar_target(plt_mckenzie_analysis, plot_irf("McKenzie County, North Dakota", dat_var, nrep = 50, block_length = block_length)),
-  # "Karnes County, Texas"   
-  # tar_target(plt_karnes_analysis, plot_irf("Karnes County, Texas", dat_var, nrep = 50, block_length = 24)),
-  # Combine structural IRFs from different counties
-  # tar_target(plt_irf_dempl, combine_irf(plt_kern_analysis, plt_weld_analysis, plt_eddy_analysis, plt_mckenzie_analysis, plt_karnes_analysis)),
-  # tar_target(file_plt_irf_dempl_tex, tikzsave(filename = here("out", "fig_plt_irf_dempl.tex"), plot = plt_irf_dempl, width = mywidth_irf, heigh = myheight_irf), format = "file"),  
   # _________________________
   # Historical decompositions
   # "Kern County, California"       
@@ -124,18 +104,6 @@ list(
   tar_target(plt_hd_kern_cumulative_change_empl, plot_hd_cumulative_change_empl(plt_analysis = plt_kern_analysis, hd = hd_kern, date_start = ymd("1995-02-01"))),
   tar_target(file_plt_hd_kern_pdf, tar_fig_save(fout = here("out", "fig_plt_hd_kern_cumulative_change_empl.pdf"), plot = plt_hd_kern_cumulative_change_empl, width = mywidth, height = myheight), format = "file"),
   tar_target(file_plt_hd_kern_tex, tikzsave(filename = here("out", "fig_plt_hd_kern_cumulative_change_empl.tex"), plot = plt_hd_kern_cumulative_change_empl, width = mywidth, heigh = myheight), format = "file"),
-  # "Weld County, Colorado"         
-  # tar_target(hd_weld, compute_hd(plt_weld_analysis)),
-  # tar_target(file_plt_hd_weld_tex, tikzsave(filename = here("out", "fig_plt_hd_weld.tex"), plot = hd_weld, width = mywidth, height = myheight), format = "file"),
-  # "Eddy County, New Mexico"      
-  # tar_target(hd_eddy, compute_hd(plt_eddy_analysis)),  
-  # tar_target(file_plt_hd_eddy_tex, tikzsave(filename = here("out", "fig_plt_hd_eddy.tex"), plot = hd_eddy, width = mywidth, height = myheight), format = "file"),  
-  # "McKenzie County, North Dakota" 
-  # tar_target(hd_mckenzie, compute_hd(plt_mckenzie_analysis)),  
-  # tar_target(file_plt_hd_mckenzie_tex, tikzsave(filename = here("out", "fig_plt_hd_mckenzie.tex"), plot = hd_mckenzie, width = mywidth, height = myheight), format = "file"), 
-  # "Karnes County, Texas" 
-  # tar_target(hd_karnes, compute_hd(plt_karnes_analysis)),  
-  # tar_target(file_plt_hd_karnes_tex, tikzsave(filename = here("out", "fig_plt_hd_karnes.tex"), plot = hd_karnes, width = mywidth, height = myheight), format = "file"),   
   # _____________________
   # Second-stage analysis
   tar_target(plt_irf2_wage_kern, plot_irf2_wage_kern(dat_wage2_kern, plt_kern_analysis)),
@@ -146,8 +114,6 @@ list(
   tar_target(tbl_fevd_kern_dempl, compute_fevd_kern(plt_kern_analysis, var_name = "dempl", caption_name = "employment growth", latex_suffix = "dempl")),
   tar_target(tbl_fevd_kern_oilsupply, compute_fevd_kern(plt_kern_analysis, var_name = "oilsupply", caption_name = "oil supply", latex_suffix = "oilsupply")),
   tar_target(tbl_fevd_kern_rpoil, compute_fevd_kern(plt_kern_analysis, var_name = "rpoil", caption_name = "the real price of crude oil", latex_suffix = "rpoil")),
-  # tar_target(tbl_fevd, compute_fevd(plt_kern_analysis, plt_weld_analysis, plt_eddy_analysis, plt_mckenzie_analysis, plt_karnes_analysis)),
-  # tar_target(file_tbl_fevd, tbl_save(tbl_fevd, here("out", "tbl_fevd.tex")), format = "file"),
   # Save items --------------------------------------------------------------
   # Figures
   tar_target(file_plt_empl_share_oil_kern, tikzsave(filename = here("out", "fig_plt_empl_share_oil_kern.tex"), plot = plt_empl_share$plt_kern, width = mywidth, height = myheight), format = "file"),

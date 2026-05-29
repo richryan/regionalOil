@@ -23,8 +23,9 @@ knitr::opts_chunk$set(
 
 California policymakers have adopted the goal of carbon neutrality by 2045 or earlier. 
 Within California, Kern County accounts for over 70 percent of oil produced within the state. 
-To get a sense of how the transition may affect opportunities in Kern, 
-the project estimates a structural vector autoregressive model 
+To get a sense of how the transition may affect opportunities in Kern---the
+extent to which Kern's economy depends on oil---the 
+project estimates a structural vector autoregressive model 
 that jointly explains the global crude-oil market and the evolution of employment within Kern. 
 The estimates are based on data from 
 [FRED](https://fred.stlouisfed.org/) and 

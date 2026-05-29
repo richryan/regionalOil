@@ -14,21 +14,23 @@ PROJECT regionalOil
 California policymakers have adopted the goal of carbon neutrality by
 2045 or earlier. Within California, Kern County accounts for over 70
 percent of oil produced within the state. To get a sense of how the
-transition may affect opportunities in Kern, the project estimates a
-structural vector autoregressive model that jointly explains the global
-crude-oil market and the evolution of employment within Kern. The
-estimates are based on data from [FRED](https://fred.stlouisfed.org/)
-and the [Quarterly Census of Employment and
-Wages](https://www.bls.gov/cew/), and the project contains code to
-retrieve these data (which will make updating the analysis
-straightforward). In addition, the project contains **R code** that
+transition may affect opportunities in Kern—the extent to which Kern’s
+economy depends on oil—the project estimates a structural vector
+autoregressive model that jointly explains the global crude-oil market
+and the evolution of employment within Kern. The estimates are based on
+data from [FRED](https://fred.stlouisfed.org/) and the [Quarterly Census
+of Employment and Wages](https://www.bls.gov/cew/), and the project
+contains code to retrieve these data (which will make updating the
+analysis straightforward). In addition, the project contains **R code**
+that
 
 - estimates a structural vector autoregressive model,
 - computes structural impulse response functions,
 - conducts inference for the structural IRFs based on a residual-based
-  block bootstrap procedure proposed by Brüggemann et al.
-  ([2016](#ref-bruggemann_jentsch_trenkler_2016)) as discussed by Kilian
-  and Lütkepohl ([2017](#ref-kilian_lutkepohl_2017)),
+  block bootstrap procedure proposed by
+  ([**bruggemann_jentsch_trenkler_2016?**](#ref-bruggemann_jentsch_trenkler_2016))
+  as discussed by Kilian and Lütkepohl
+  ([2017](#ref-kilian_lutkepohl_2017)),
 - computes historical decompositions and forecast error variance
   decompositions,
 - constructs counterfactual employment series based on the Wold
@@ -102,7 +104,7 @@ Here are resources on the targets package:
   at 2019-05-14 RSS Sheffield Local Group meeting
 - Louisa Smith’s [Reproducible Epidemiology in
   R](https://www.reproducible-epi-workshop.louisahsmith.com/)
-- Flight ([2022](#ref-flight_2022))
+- ([**flight_2022?**](#ref-flight_2022))
 
 Krystalli cites Buckheit and Donoho ([1995](#ref-buckheit_donoho_1995))
 who “distill” Jon Claerbout’s insights into the slogan:
@@ -156,29 +158,12 @@ Oil-Producing Region</a> © 2026 by
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-bruggemann_jentsch_trenkler_2016" class="csl-entry">
-
-Brüggemann, Ralf, Carsten Jentsch, and Carsten Trenkler. 2016.
-“Inference in VARs with Conditional Heteroskedasticity of Unknown Form.”
-*Journal of Econometrics* 191 (1): 69–85.
-<https://doi.org/10.1016/j.jeconom.2015.10.004>.
-
-</div>
-
 <div id="ref-buckheit_donoho_1995" class="csl-entry">
 
 Buckheit, Jonathan B., and David L. Donoho. 1995. “WaveLab and
 Reproducible Research.” In *Wavelets and Statistics*, edited by Anestis
 Antoniadis and Georges Oppenheim. Springer New York.
 <https://doi.org/10.1007/978-1-4612-2544-7_5>.
-
-</div>
-
-<div id="ref-flight_2022" class="csl-entry">
-
-Flight, Robert M. 2022. “Creating an Analysis With a Targets Workflow.”
-September 27.
-<https://rmflight.github.io/posts/2022-09-27-creating-an-analysis-using-targets>.
 
 </div>
 
