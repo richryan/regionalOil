@@ -5477,7 +5477,7 @@
     },
     "tidyquant": {
       "Package": "tidyquant",
-      "Version": "1.0.11",
+      "Version": "1.0.12",
       "Source": "Repository",
       "Type": "Package",
       "Title": "Tidy Quantitative Financial Analysis",
@@ -5497,6 +5497,7 @@
         "httr",
         "httr2",
         "curl",
+        "jsonlite",
         "lazyeval",
         "lubridate",
         "magrittr",
@@ -5519,7 +5520,6 @@
       ],
       "Suggests": [
         "alphavantager (>= 0.1.2)",
-        "Quandl",
         "riingo",
         "tibbletime",
         "broom",
@@ -5531,7 +5531,7 @@
         "Rblpapi",
         "janitor"
       ],
-      "RoxygenNote": "7.3.2",
+      "RoxygenNote": "7.3.3",
       "VignetteBuilder": "knitr",
       "NeedsCompilation": "no",
       "Author": "Matt Dancho [aut, cre], Davis Vaughan [aut]",
