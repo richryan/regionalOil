@@ -27,7 +27,6 @@ myheight <- mywidth / golden
 mywidth_hd <- 8
 myheight_hd <- mywidth_hd / golden
 
-
 csub_blue <- rgb(0, 26, 112, maxColorValue = 255)
 mycolor1 <- csub_blue
 mycolor2 <- colorspace::qualitative_hcl(1, palette = "Dark 3")
