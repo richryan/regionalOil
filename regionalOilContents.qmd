@@ -1,0 +1,601 @@
+---
+title: "regionalOil"
+toc: true
+format: 
+  html:
+    embed-resources: true # allows you to click on HTML in order to view
+# format:
+#   docx:
+#     fontsize: 12pt
+#     toc: true
+#     number-sections: true
+bibliography: references.bib
+author:
+  - name: Rich Ryan
+    corresponding: true
+    orcid: 0000-0002-6648-5413
+    email: richryan@csub.edu
+    affiliations:
+      - name: California State University, Bakersfield
+        address: 9001 Stockdale Highway 
+        city: Bakersfield
+        state: CA
+        postal-code: 93311
+  - name: Nyakundi Michieka
+    email: nmichieka@csub.edu
+    affiliations:
+      - name: California State University, Bakersfield
+        address: 9001 Stockdale Highway
+        city: Bakersfield
+        state: CA
+        postal-code: 93311        
+---
+
+```{r}
+#| echo: false
+#| include: false # catch-all for removing all output from the code block
+source("R/packages.R")
+```
+
+
+# Introduction
+
+This document summarizes the project's contents.
+The document serves several purposes:
+- Show what the project produces
+- Show where someone can locate the material in the code
+- In addition to replicating results from the paper, supplemental material is shared.
+
+# Data
+
+## Level of employment measured by the CPS and the QCEW
+
+```{r}
+#| echo: false
+#| label: fig-empl
+#| fig-cap: "Employment"
+targets::tar_load(plt_empl)
+plt_empl
+```
+
+Measured employment in the different counties is shown in figure @fig-empl.
+The figure shows employed measured by 
+the Current Population Survey and 
+the Quarterly Census of Employment and Wages. 
+
+## All counties: Share and level of employment in select 2- and 3-digit NAICS industries
+
+```{r}
+#| echo: false
+#| label: fig-empl-share-mining-oil-gas
+#| fig-cap: "Share of employment in mining and oil and gas extraction"
+targets::tar_load(plt_empl_share)
+plt_empl_share$plt_all
+```
+
+```{r}
+#| echo: false
+#| label: fig-empl-lvl-mining-oil-gas
+#| fig-cap: "Level of employment in mining and oil and gas extraction"
+targets::tar_load(plt_empl_ind)
+plt_empl_ind
+```
+
+
+## Kern: Share of employment in select 2- and 3-digit NAICS industries
+
+```{r}
+#| echo: false
+#| label: fig-empl-share-mining-oil-gas-kern
+#| fig-cap: "Share of employment in mining and oil and gas extraction"
+targets::tar_load(plt_empl_share)
+plt_empl_share$plt_kern
+```
+
+Figure @fig-empl-share-mining-oil-gas-kern covers the period
+`r min(as.Date(layer_scales(plt_empl_share$plt_kern)$x$range$range))` to
+`r max(as.Date(layer_scales(plt_empl_share$plt_kern)$x$range$range))`.
+
+## Kern: Employment in NAICS supersectors
+
+```{r}
+#| echo: false
+#| label: fig-empl-naics-supersector-kern
+#| fig-cap: "Supersector employment in Kern"
+targets::tar_load(plt_supersector_kern)
+plt_supersector_kern$plt_lvl
+```
+
+```{r}
+#| echo: false
+#| label: fig-empl-share-naics-supersector-kern
+#| fig-cap: "Share of supersector employment in Kern"
+targets::tar_load(plt_supersector_kern)
+plt_supersector_kern$plt_share
+```
+
+# Structural impulse responses
+
+Estimated structural impulse response functions.
+
+## Kern County, California
+
+### All 
+
+```{r}
+#| echo: false
+#| fig-height: 8
+#| fig-width: 7
+#| label: fig-svar-kern-paper
+#| fig-cap: "Structural impulse response functions in Kern County, California"
+targets::tar_load(plt_kern_analysis)
+plt_kern_analysis$plt_all 
+```
+
+### The oil block
+
+```{r}
+#| echo: false
+#| fig-height: 8
+#| fig-width: 7
+#| label: fig-svar-oil-kern
+#| fig-cap: "Structural impulse response functions estimated using data from Kern County, California"
+targets::tar_load(plt_kern_analysis)
+plt_kern_analysis$plt_oil_block
+```
+
+### The employment block
+
+```{r}
+#| echo: false
+#| fig-height: 8
+#| fig-width: 7
+#| label: fig-svar-empl-kern
+#| fig-cap: "Structural impulse response functions estimated using data from Kern County, California"
+targets::tar_load(plt_kern_analysis)
+plt_kern_analysis$plt_empl_block
+```
+
+<!-- ## Weld County, Colorado -->
+
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- #| fig-height: 8 -->
+<!-- #| fig-width: 7 -->
+<!-- #| label: fig-svar-weld-paper -->
+<!-- #| fig-cap: "Structural impulse response functions in Weld County, Colorado" -->
+<!-- targets::tar_load(plt_weld_analysis) -->
+<!-- plt_weld_analysis$plt_all  -->
+<!-- ``` -->
+
+<!-- ## Eddy County, New Mexico -->
+
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- #| fig-height: 8 -->
+<!-- #| fig-width: 7 -->
+<!-- #| label: fig-svar-eddy-paper -->
+<!-- #| fig-cap: "Structural impulse response functions in Eddy County, New Mexico" -->
+<!-- targets::tar_load(plt_eddy_analysis) -->
+<!-- plt_eddy_analysis$plt_all  -->
+<!-- ``` -->
+
+<!-- ## McKenzie County, North Dakota -->
+
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- #| fig-height: 8 -->
+<!-- #| fig-width: 7 -->
+<!-- #| label: fig-svar-mckenzie-paper -->
+<!-- #| fig-cap: "Structural impulse response functions in McKenzie County, North Dakota" -->
+<!-- targets::tar_load(plt_mckenzie_analysis) -->
+<!-- plt_mckenzie_analysis$plt_all  -->
+<!-- ``` -->
+
+<!-- ## Karnes County, Texas -->
+
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- #| fig-height: 8 -->
+<!-- #| fig-width: 7 -->
+<!-- #| label: fig-svar-karnes-paper -->
+<!-- #| fig-cap: "Structural impulse response functions in Karnes County, Texas" -->
+<!-- targets::tar_load(plt_karnes_analysis) -->
+<!-- plt_karnes_analysis$plt_all  -->
+<!-- ``` -->
+
+<!-- ## Combined structural impulse response functions -->
+
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- #| fig-height: 8 -->
+<!-- #| fig-width: 7 -->
+<!-- #| label: fig-svar-dempl -->
+<!-- #| fig-cap: "Responses of employment to structural shocks to the global oil market in oil-dependent counties " -->
+<!-- targets::tar_load(plt_irf_dempl) -->
+<!-- plt_irf_dempl -->
+<!-- ``` -->
+
+
+# Historical decompositions
+
+## Kern County, California
+
+### Check that the historical decomposition can match the level of employment
+
+```{r}
+#| echo: false
+#| fig-height: 8
+#| fig-width: 7
+#| label: fig-hd-check-early-kern
+#| fig-cap: "Check historical decomposition in Kern County, California, using employment level"
+targets::tar_load(dat_hd_lvl_kern_early)
+dat_hd_lvl_kern_early$plt_lvl_check
+```
+
+Figure @fig-hd-check-early-kern verifies that the historical decomposition can match the level of employment.
+The figure covers the period 
+`r min(as.Date(layer_scales(dat_hd_lvl_kern_early$plt_lvl_check)$x$range$range))` to
+`r max(as.Date(layer_scales(dat_hd_lvl_kern_early$plt_lvl_check)$x$range$range))`.
+
+```{r}
+#| echo: false
+#| fig-height: 8
+#| fig-width: 7
+#| label: fig-hd-check-late-kern
+#| fig-cap: "Check historical decomposition in Kern County, California, using employment level"
+targets::tar_load(dat_hd_lvl_kern_late)
+dat_hd_lvl_kern_late$plt_lvl_check
+```
+
+Figure @fig-hd-check-late-kern verifies that the historical decomposition can match the level of employment.
+The figure covers the period 
+`r min(as.Date(layer_scales(dat_hd_lvl_kern_late$plt_lvl_check)$x$range$range))` to
+`r max(as.Date(layer_scales(dat_hd_lvl_kern_late$plt_lvl_check)$x$range$range))`.
+
+### Structural factors that explain the growth rate of employment
+
+```{r}
+#| echo: false
+#| label: fig-hd-components-kern
+#| fig-cap: "Structural components that explain the growth rate of employment in Kern County, California"
+targets::tar_load(plt_hd_components_kern)
+plt_hd_components_kern
+```
+
+
+### Counterfactual employment series
+
+```{r}
+#| echo: false
+#| fig-height: 8
+#| fig-width: 7
+#| label: fig-counterfactual-empl-kern-late
+#| fig-cap: "Counterfactual employment series in Kern County, California"
+targets::tar_load(plt_hd_lvl_kern_early)
+targets::tar_load(plt_hd_lvl_kern_late)
+plt_hd_lvl_kern_late$plt
+```
+
+```{r}
+#| echo: false
+#| fig-height: 8
+#| fig-width: 7
+#| label: fig-counterfactual-empl-kern-early
+#| fig-cap: "Counterfactual employment series in Kern County, California"
+targets::tar_load(plt_hd_lvl_kern)
+targets::tar_load(plt_hd_lvl_kern_early)
+plt_hd_lvl_kern_early$plt
+```
+
+Figure @fig-counterfactual-empl-kern-early shows counterfactual employment series for Kern County, California.
+The figure is shown in *levels*. 
+
+The early period begins in 
+`r min(pull(plt_hd_lvl_kern_early$df_begin, date))` and goes through
+`r min(pull(plt_hd_lvl_kern_early$df_end, date))`.
+The later period begins in
+`r min(pull(plt_hd_lvl_kern_late$df_begin, date))` and goes through
+`r min(pull(plt_hd_lvl_kern_late$df_end, date))`.
+
+Numbers in the chart can be accessed along with what is returned with the chart:
+```{r}
+cbind(plt_hd_lvl_kern_early$df_begin, plt_hd_lvl_kern_early$df_end)
+```
+
+and
+
+```{r}
+cbind(plt_hd_lvl_kern_late$df_begin, plt_hd_lvl_kern_late$df_end)
+```
+
+
+## Weld County, Colorado
+
+## Eddy County, New Mexico
+
+## McKenzie County, North Dakota
+
+## Karnes County, Texas
+
+# Economy-wide employment responds differently to oil shocks than oil-dependent counties
+
+# Counter-factual employment in oil-dependent regions absent the effects of the global oil market: assessment using historical decompositions
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-hist-decomp-eddy -->
+
+<!-- #| fig-cap: "Counterfactual employment in Edddy County" -->
+
+<!-- targets::tar_load(hd_eddy) -->
+
+<!-- hd_eddy -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-hist-decomp-karnes -->
+
+<!-- #| fig-cap: "Counterfactual employment in Karnes County" -->
+
+<!-- targets::tar_load(hd_karnes) -->
+
+<!-- hd_karnes -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-hist-decomp-kern -->
+
+<!-- #| fig-cap: "Counterfactual employment in Kern County" -->
+
+<!-- targets::tar_load(hd_kern) -->
+
+<!-- hd_kern -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-hist-decomp-mckenzie -->
+
+<!-- #| fig-cap: "Counterfactual employment in McKenzie County" -->
+
+<!-- targets::tar_load(hd_mckenzie) -->
+
+<!-- targets::tar_load(hd_weld) -->
+
+<!-- hd_mckenzie -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-hist-decomp-weld -->
+
+<!-- #| fig-cap: "Counterfactual employment in Weld County" -->
+
+<!-- targets::tar_load(hd_weld) -->
+
+<!-- hd_weld -->
+
+<!-- ``` -->
+
+# Forecast error variance decomposition
+
+# References
+
+::: {#refs}
+:::
+
+# Appendix
+
+## Employment
+
+<!-- Figure @fig-empl shows -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-empl -->
+
+<!-- #| fig-cap: "Employment in oil-dependent counties" -->
+
+<!-- targets::tar_load(plt_empl) -->
+
+<!-- plt_empl -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-empl-ind -->
+
+<!-- #| fig-cap: "Employment across industries in oil-dependent counties" -->
+
+<!-- targets::tar_load(plt_empl_ind) -->
+
+<!-- plt_empl_ind -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-empl-share -->
+
+<!-- #| fig-cap: "Share of employment in oil-dependent counties" -->
+
+<!-- targets::tar_load(plt_empl_share) -->
+
+<!-- plt_empl_share -->
+
+<!-- ``` -->
+
+<!-- ## Wages -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-wage-share -->
+
+<!-- #| fig-cap: "Share of total wages earned by sector across oil-dependent counties" -->
+
+<!-- targets::tar_load(plt_wage_share) -->
+
+<!-- plt_wage_share -->
+
+<!-- ``` -->
+
+<!-- ## Number of establishments -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-establishments-total -->
+
+<!-- #| fig-cap: "Number of total establishments in oil-dependent counties" -->
+
+<!-- targets::tar_load(plt_establishments_total) -->
+
+<!-- plt_establishments_total -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-establishments-ind -->
+
+<!-- #| fig-cap: "Number of total establishments by industry in oil-dependent counties" -->
+
+<!-- targets::tar_load(plt_establishments_ind) -->
+
+<!-- plt_establishments_ind -->
+
+<!-- ``` -->
+
+<!-- ## Structural VAR -->
+
+<!-- ### Data on employment growth -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-dempl -->
+
+<!-- #| fig-cap: "Change in employment from previous month" -->
+
+<!-- targets::tar_load(plt_dempl) -->
+
+<!-- plt_dempl -->
+
+<!-- ``` -->
+
+<!-- ### Structural impulse response functions -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-svar-kern -->
+
+<!-- #| fig-cap: "Structural impulse response functions in Kern County, California" -->
+
+<!-- targets::tar_load(plt_kern_analysis) -->
+
+<!-- plt_kern_analysis$plt_all -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-svar-weld -->
+
+<!-- #| fig-cap: "Structural impulse response functions in Weld County, Colorado" -->
+
+<!-- targets::tar_load(plt_weld_analysis) -->
+
+<!-- plt_weld_analysis$plt_all -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-svar-eddy -->
+
+<!-- #| fig-cap: "Structural impulse response functions in Eddy County, New Mexico" -->
+
+<!-- targets::tar_load(plt_eddy_analysis) -->
+
+<!-- plt_eddy_analysis$plt_all -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-svar-mckenzie -->
+
+<!-- #| fig-cap: "Structural impulse response functions in McKenzie County, North Dakota" -->
+
+<!-- targets::tar_load(plt_mckenzie_analysis) -->
+
+<!-- plt_mckenzie_analysis$plt_all -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| label: fig-svar-karnes -->
+
+<!-- #| fig-cap: "Structural impulse response functions in Karnes County, Texas" -->
+
+<!-- targets::tar_load(plt_karnes_analysis) -->
+
+<!-- plt_karnes_analysis$plt_all -->
+
+<!-- ```  -->
+
+## Historical decompositions
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).

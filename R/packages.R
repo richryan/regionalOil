@@ -1,0 +1,22 @@
+library(kilianr)
+# These files are loaded by kilianr by default
+# 
+# library(dplyr)
+# library(ggplot2)
+# library(lubridate)
+# library(purrr)
+# library(stringr)
+# library(tibble)
+# library(tidyr)
+library(here)
+library(readr)
+library(forcats)
+library(tidyquant)
+library(patchwork) # patchwork for combining IRFs
+library(colorspace) 
+library(ggrepel)
+library(bookdown)
+library(quarto)
+library(assertr)
+library(kableExtra)
+library(fredr)
