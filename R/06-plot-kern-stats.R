@@ -87,14 +87,14 @@ plot_educational_attainment <- function(acs_data, color_kern, nbins = 16) {
     "Doctorate degree"
   )
 
-  dat_out <- dat_long %>%
-    group_by(county) %>%
+  dat_out <- dat_long |> 
+    group_by(county) |> 
     summarize(
       total_25plus = sum(estimate[category == "Total:"], na.rm = TRUE),
       college_deg  = sum(estimate[category %in% college_categories], na.rm = TRUE),
       share_college_deg = college_deg / total_25plus,
       .groups = "drop"
-    ) %>%
+    ) |> 
     arrange(desc(share_college_deg)) |>
     mutate(rank = row_number())
   
