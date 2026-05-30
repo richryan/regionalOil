@@ -27,17 +27,17 @@ that
 - estimates a structural vector autoregressive model,
 - computes structural impulse response functions,
 - conducts inference for the structural IRFs based on a residual-based
-  block bootstrap procedure proposed by
-  ([**bruggemann_jentsch_trenkler_2016?**](#ref-bruggemann_jentsch_trenkler_2016))
-  as discussed by Kilian and Lütkepohl
-  ([2017](#ref-kilian_lutkepohl_2017)),
+  block bootstrap procedure proposed by Brüggemann et al.
+  ([2016](#ref-bruggemann_jentsch_trenkler_2016)) as discussed by Kilian
+  and Lütkepohl ([2017](#ref-kilian_lutkepohl_2017)),
 - computes historical decompositions and forecast error variance
   decompositions,
 - constructs counterfactual employment series based on the Wold
   decomposition and moving-average representation of the system.
 
 A summary of the project is available as a working paper at
-[arXiv](https://arxiv.org/abs/2602.23462) and has been published as
+[arXiv](https://arxiv.org/abs/2602.23462) ([Ryan and Michieka
+2026](#ref-ryan_michieka_2026)). A published version is forthcoming:
 
 > **Employment, Input–Output Linkages, and the Energy Transition in
 > California’s Top Oil-Producing Region** (with Nyakundi Michieka).
@@ -52,7 +52,44 @@ Please note:
 - The code relies on the `targets` package for reproducibility.
 - [Rich Ryan](https://richryan.github.io/) wrote the code and the paper,
   so please address correspondence to <richryan@csub.edu>. He’d be
-  delighted to hear about any issues.
+  delighted to hear from you.
+
+# Push-button replication
+
+The project relies on the R packages
+
+- renv
+- targets
+
+for replicability. Here is a workflow that will closely reproduce the
+results in the paper.
+
+1.  Create a new project from git
+2.  To be sure you are updating results, you can delete the contents of
+    out/
+3.  From within R at the root of the project, source
+    `push_button_replication.R`. This will install the relevant packages
+    and run the targets pipeline.
+    - In a Posit Cloud environment, I ran into several errors. Running
+      `update.packages(ask = FALSE, checkBuilt = TRUE)` solved the
+      issues.
+
+Note: I haven’t tested this workflow much, but I suspect the workflow
+will break under Box, as the files in renv/library/ will not always be
+available.
+
+<!-- 1. Install the targets and tarchetypes packages from R -->
+
+<!-- 1. Use `renv::restore()` -->
+
+The script `_targets.R` also contains directions for *updating* the
+results; that is, extending the results to include the latest available
+data.
+
+In an effort of full and forthright disclosure, I don’t think my code is
+seeding the bootstrap replications correctly, and I haven’t confirmed
+that the confidence sets are always the same. Nevertheless, the points
+estimates should be the same.
 
 ## API key in .Renviron
 
@@ -90,6 +127,40 @@ Kulkarni, and Dominic White was also helpfully consulted.
 The references on targets also provide information on worflow and
 project management.
 
+## Resources on the renv package
+
+- “[Using {renv} for Reproducible R
+  Projects](https://youtu.be/Zu01z_ZpPgQ?si=ijiMSuRAe3THKVvn)” by Susan
+  B.
+- “[Introduction to
+  renv](https://rstudio.github.io/renv/articles/renv.html)”
+- The `renv::init()` creates
+  - `renv.lock` records what packages were used to produce results
+    (including specific version numbers)
+  - \`renv::restore()\`\` will match
+  - The directory renv/library/ now contains package files (or symbolic
+    links to those files). The command `.libPaths()` will show this by
+    telling you where packages in the project are being sourced from.
+    With the renv package, the links will not point to the system-wide R
+    package library.
+- renv workflow
+  - `install.package("somepackage")`
+  - `renv::snapshot()` will update the renv.lock file
+- Version-controlled files (not renv/library/, which are
+  system-specific—for people working on Windows and Mac machines
+  collaborating on a project, eg—this directory is managed by renv
+  \[same for renv/staging/\])
+  - renv.lock
+  - .Rprofile (instructs to use renv/activate.R)
+  - renv/activate.R (set up how the renv package works)
+  - renv/.gitignore
+  - renv/settings.json
+
+From the renv package: “projects using renv will normally use a private,
+per-project R library, in which new packages will be installed. This
+project library is isolated from other R libraries on your system.” The
+idea is to
+
 ## Resources on the targets package
 
 Here are resources on the targets package:
@@ -104,7 +175,7 @@ Here are resources on the targets package:
   at 2019-05-14 RSS Sheffield Local Group meeting
 - Louisa Smith’s [Reproducible Epidemiology in
   R](https://www.reproducible-epi-workshop.louisahsmith.com/)
-- ([**flight_2022?**](#ref-flight_2022))
+- Flight ([2022](#ref-flight_2022))
 
 Krystalli cites Buckheit and Donoho ([1995](#ref-buckheit_donoho_1995))
 who “distill” Jon Claerbout’s insights into the slogan:
@@ -158,12 +229,29 @@ Oil-Producing Region</a> © 2026 by
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 
+<div id="ref-bruggemann_jentsch_trenkler_2016" class="csl-entry">
+
+Brüggemann, Ralf, Carsten Jentsch, and Carsten Trenkler. 2016.
+“Inference in VARs with Conditional Heteroskedasticity of Unknown Form.”
+*Journal of Econometrics* 191 (1): 69–85.
+<https://doi.org/10.1016/j.jeconom.2015.10.004>.
+
+</div>
+
 <div id="ref-buckheit_donoho_1995" class="csl-entry">
 
 Buckheit, Jonathan B., and David L. Donoho. 1995. “WaveLab and
 Reproducible Research.” In *Wavelets and Statistics*, edited by Anestis
 Antoniadis and Georges Oppenheim. Springer New York.
 <https://doi.org/10.1007/978-1-4612-2544-7_5>.
+
+</div>
+
+<div id="ref-flight_2022" class="csl-entry">
+
+Flight, Robert M. 2022. “Creating an Analysis With a Targets Workflow.”
+September 27.
+<https://rmflight.github.io/posts/2022-09-27-creating-an-analysis-using-targets>.
 
 </div>
 
@@ -180,6 +268,14 @@ Autoregressive Analysis*. Cambridge University Press.
 Noble, William Stafford. 2009. “A Quick Guide to Organizing
 Computational Biology Projects.” *PLoS Computational Biology* 5 (7):
 e1000424. <https://doi.org/10.1371/journal.pcbi.1000424>.
+
+</div>
+
+<div id="ref-ryan_michieka_2026" class="csl-entry">
+
+Ryan, Rich, and Nyakundi Michieka. 2026. *Employment, Input-Output
+Linkages, and the Energy Transition in California’s Top Oil-Producing
+Region*. <https://arxiv.org/abs/2602.23462>.
 
 </div>
 
