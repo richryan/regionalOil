@@ -73,6 +73,10 @@ results in the paper.
     - In a Posit Cloud environment, I ran into several errors. Running
       `update.packages(ask = FALSE, checkBuilt = TRUE)` solved the
       issues.
+4.  The file paper-contents.tex collects the results featured by Ryan
+    and Michieka ([2026](#ref-ryan_michieka_2026))
+
+I was able to replicate the results in the following environment:
 
 Note: I haven’t tested this workflow much, but I suspect the workflow
 will break under Box, as the files in renv/library/ will not always be
@@ -146,6 +150,8 @@ project management.
 - renv workflow
   - `install.package("somepackage")`
   - `renv::snapshot()` will update the renv.lock file
+  - When starting from a fresh R environment, `renv:restore()` will make
+    sure another R environment has the same version of packages
 - Version-controlled files (not renv/library/, which are
   system-specific—for people working on Windows and Mac machines
   collaborating on a project, eg—this directory is managed by renv
@@ -159,7 +165,7 @@ project management.
 From the renv package: “projects using renv will normally use a private,
 per-project R library, in which new packages will be installed. This
 project library is isolated from other R libraries on your system.” The
-idea is to
+idea is to work from an R environment within the project directory.
 
 ## Resources on the targets package
 

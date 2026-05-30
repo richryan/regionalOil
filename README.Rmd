@@ -73,6 +73,9 @@ Here is a workflow that will closely reproduce the results in the paper.
 This will install the relevant packages and run the targets pipeline. 
     + In a Posit Cloud environment, I ran into several errors. 
     Running `update.packages(ask = FALSE, checkBuilt = TRUE)` solved the issues.
+1. The file paper-contents.tex collects the results featured by @ryan_michieka_2026
+
+I was able to replicate the results in the following environment:
 
 Note: I haven't tested this workflow much,
 but I suspect the workflow will break under Box, as
@@ -153,8 +156,6 @@ From the renv package:
 R library, in which new packages will be installed. This project library is
 isolated from other R libraries on your system."
 The idea is to work from an R environment within the project directory.
-
-I was able to replicate the results in the following environment:
 
 ## Resources on the targets package
 
